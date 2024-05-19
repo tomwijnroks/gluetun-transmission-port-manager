@@ -10,3 +10,16 @@ gluetun-qbittorrent-port-manager:
     HTTP_S: http # Select 'http' or 'https' depending on if you use certificates.
     GLUETUN_HOST: localhost # IP or FQDN of gluetun control server
     GLUETUN_PORT: 8000 # port of gluetun control server
+  depends_on:
+    gluetun:
+      condition: service_healthy
+      restart: true
+  healthcheck:
+    test: curl -sf "$$HTTP_S"://"$$GLUETUN_HOST":"$$GLUETUN_PORT"/v1/openvpn/portforwarded || exit 1
+    interval: 5m
+    timeout: 10s
+    start_period: 20s
+    retries: 3
+    # Uncomment below if using deunhealth in your stack to restart unhealthy containers
+  #labels:
+   # - deunhealth.restart.on.unhealthy=true

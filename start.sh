@@ -51,5 +51,5 @@ while true; do
   fi
 
   # Wait for a specific interval before checking again
-  sleep 30
+  sleep 600
 done
