@@ -13,6 +13,11 @@ gluetun-qbittorrent-port-manager:
   depends_on:
     gluetun:
       condition: service_healthy
+      required: true
+      restart: true
+    qbittorrent:
+      condition: service_healthy
+      required: true
       restart: true
   healthcheck:
     test: curl -sf "$$HTTP_S"://"$$GLUETUN_HOST":"$$GLUETUN_PORT"/v1/openvpn/portforwarded || exit 1
