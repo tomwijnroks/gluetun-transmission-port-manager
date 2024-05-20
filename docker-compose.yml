@@ -1,7 +1,7 @@
 gluetun-qbittorrent-port-manager:
   image: patrickaclark/gluetun-qbittorrent-port-manager:latest
   restart: unless-stopped
-  network_mode: "service: gluetun"
+  network_mode: service: gluetun
   environment:
     QBITTORRENT_SERVER: localhost # IP Address of qbittorrent
     QBITTORRENT_PORT: 8080
@@ -10,6 +10,7 @@ gluetun-qbittorrent-port-manager:
     HTTP_S: http # Select 'http' or 'https' depending on if you use certificates.
     GLUETUN_HOST: localhost # IP or FQDN of gluetun control server
     GLUETUN_PORT: 8000 # port of gluetun control server
+    RECHECK_TIME: 60 # number of seconds between checks to gluetun server for port
   depends_on:
     gluetun:
       condition: service_healthy
@@ -20,8 +21,8 @@ gluetun-qbittorrent-port-manager:
       required: true
       restart: true
   healthcheck:
-    test: curl -sf "$$HTTP_S"://"$$GLUETUN_HOST":"$$GLUETUN_PORT"/v1/openvpn/portforwarded || exit 1
-    interval: 5m
+    test: curl -sf https://www.google.com/ || exit 1
+    interval: 30s
     timeout: 10s
     start_period: 20s
     retries: 3

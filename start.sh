@@ -51,5 +51,5 @@ while true; do
   fi
 
   # Wait for a specific interval before checking again
-  sleep 600
+  sleep $RECHECK_TIME
 done
