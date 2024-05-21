@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
 COOKIES="/tmp/cookies.txt"
 CURRENT_PORT=""

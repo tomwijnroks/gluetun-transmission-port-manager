@@ -1,7 +1,7 @@
 gluetun-qbittorrent-port-manager:
   image: patrickaclark/gluetun-qbittorrent-port-manager:latest
   restart: unless-stopped
-  network_mode: service: gluetun
+  network_mode: service:gluetun
   environment:
     QBITTORRENT_SERVER: localhost # IP Address of qbittorrent
     QBITTORRENT_PORT: 8080
