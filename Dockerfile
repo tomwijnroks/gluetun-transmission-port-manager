@@ -1,7 +1,7 @@
 FROM alpine:latest
 
 RUN apk update
-RUN apk add --no-cache curl bash
+RUN apk add --no-cache curl bash jq
 
 ENV QBITTORRENT_SERVER=localhost
 ENV QBITTORRENT_PORT=8080
