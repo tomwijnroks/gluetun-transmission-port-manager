@@ -19,16 +19,19 @@ update_port () {
 
   # Update qbittorrent preferences with the new port
   curl -s -b "$COOKIES" --data "json={\"listen_port\": \"$PORT\"}" "${HTTP_S}://${QBITTORRENT_SERVER}:${QBITTORRENT_PORT}/api/v2/app/setPreferences" > /dev/null
-  if [[ $? -ne 0 ]]; then
+ # Check current port to see if changes took effect
+  CURRENT_PORT=$(curl -s -b $COOKIES ${HTTP_S}://${QBITTORRENT_SERVER}:${QBITTORRENT_PORT}/api/v2/app/preferences | jq -r '.listen_port')
+
+  if [ "$CURRENT_PORT" == "$PORT" ]; then
+    echo "Successfully updated qbittorrent to port $PORT"
+    break
+  else
     echo "Failed to update port."
     return 1
   fi
 
   # Clean up cookies file
   rm -f "$COOKIES"
-
-  # Update CURRENT_PORT to the new value
-  CURRENT_PORT="$PORT"
 
   echo "Successfully updated qbittorrent to port $PORT"
 }
