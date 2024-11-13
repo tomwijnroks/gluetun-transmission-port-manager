@@ -24,7 +24,7 @@ update_port () {
 
   if [ "$CURRENT_PORT" == "$PORT" ]; then
     echo "Successfully updated qbittorrent to port $PORT"
-    break
+    return 0
   else
     echo "Failed to update port."
     return 1
