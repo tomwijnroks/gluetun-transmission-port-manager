@@ -1,10 +1,10 @@
 # Gluetun Transmission Port Manager
-Automatically updates the listening port for transmission to the port forwarded by [Gluetun](https://github.com/qdm12/gluetun/).
+Automatically updates the listening peer-port for [Transmission](https://docs.linuxserver.io/images/docker-transmission/) to the port forwarded by [Gluetun](https://github.com/qdm12/gluetun/).
 
 ## Description
-This has been forked from [patrickaclark/gluetun-qbittorrent-port-manager](https://github.com/patrickaclark/gluetun-qbittorrent-port-manager) and modified for the Transmission BitTorrent client.
+This has been forked from [gluetun-qbittorrent-port-manager](https://github.com/patrickaclark/gluetun-qbittorrent-port-manager) and modified for the Transmission BitTorrent client.
 
-The [Gluetun](https://github.com/qdm12/gluetun/) container has the ability to forward dynamically assigned ports from VPN providers, but Transmission is not aware when a port change occurs. This script uses the Gluetun control server to check the assigned port forward. If the forwarded port does not match with the Transmission peer-port, the peer-port will be updated in Transmission.
+Gluetun has the ability to forward dynamically assigned ports from VPN providers, but Transmission is not aware when a port change occurs. This script uses the Gluetun control server to check the assigned port forward. If the forwarded port does not match with the Transmission peer-port, the peer-port will be updated in Transmission.
 
 ## Requirements
 
