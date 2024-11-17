@@ -1,5 +1,5 @@
 # Gluetun Transmission Port Manager
-Automatically updates the listening peer-port for Transmission to the port forwarded by [Gluetun](https://github.com/qdm12/gluetun/).
+Automatically updates the listening peer-port for [Transmission](https://docs.linuxserver.io/images/docker-transmission/) to the port forwarded by [Gluetun](https://github.com/qdm12/gluetun/).
 
 ## Description
 This has been forked from [gluetun-qbittorrent-port-manager](https://github.com/patrickaclark/gluetun-qbittorrent-port-manager) and modified for the Transmission BitTorrent client.
