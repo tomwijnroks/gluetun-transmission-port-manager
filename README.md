@@ -4,18 +4,16 @@ Automatically updates the listening port for transmission to the port forwarded 
 ## Description
 This has been forked from [patrickaclark/gluetun-qbittorrent-port-manager](https://github.com/patrickaclark/gluetun-qbittorrent-port-manager) and modified for the Transmission BitTorrent client.
 
-The [Gluetun](https://github.com/qdm12/gluetun/) container has the ability to forward dynamically assigned ports from VPN providers, but Transmission is not aware when a port change occurs.
-
-The script inside the Docker container uses the Gluetun control server to check the assigned port forward. If the forwarded port does not match with the Transmission peer-port, it will be updated in Transmission.
+The [Gluetun](https://github.com/qdm12/gluetun/) container has the ability to forward dynamically assigned ports from VPN providers, but Transmission is not aware when a port change occurs. This script uses the Gluetun control server to check the assigned port forward. If the forwarded port does not match with the Transmission peer-port, the peer-port will be updated in Transmission.
 
 ## Requirements
 
-Requirements for Transmission:
+**Requirements for Transmission:**
  - Valid username and password for rpc authentication.
  - Disable: Randomize port on launch (`peer-port-random-on-start`).
  - Disable: Use port forwarding from my router (`port-forwarding-enabled`).
 
-Requirements for Gluetun:
+**Requirements for Gluetun:**
  - Valid username and password for control server authentication.
  - Control server port exposed in Docker (default: 8000).
 
