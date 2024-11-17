@@ -1,19 +1,43 @@
-# gluetun-qbittorrent Port Manager
-Automatically updates the listening port for qbittorrent to the port forwarded by [Gluetun](https://github.com/qdm12/gluetun/).
+# Gluetun Transmission Port Manager
+Automatically updates the listening port for transmission to the port forwarded by [Gluetun](https://github.com/qdm12/gluetun/).
 
 ## Description
-This is my fork of [snoringdragon's](https://github.com/SnoringDragon) gluetun qbittorrent port forward update tool.  
+This has been forked from [patrickaclark/gluetun-qbittorrent-port-manager](https://github.com/patrickaclark/gluetun-qbittorrent-port-manager) and modified for the Transmission BitTorrent client.
 
-[Gluetun](https://github.com/qdm12/gluetun/) has the ability to forward ports for supported VPN providers, but qbittorrent does not have the ability to update its listening port dynamically.
+The [Gluetun](https://github.com/qdm12/gluetun/) container has the ability to forward dynamically assigned ports from VPN providers, but Transmission is not aware when a port change occurs.
 
-I modified the script by [snoringdragon](https://github.com/SnoringDragon)  to reach out to the [Gluetun](https://github.com/qdm12/gluetun/) control server API and updates the qbittorrent's listening port based on the response.
+The script inside the Docker container uses the Gluetun control server to check the assigned port forward. If the forwarded port does not match with the Transmission peer-port, it will be updated in Transmission.
 
-## Setup
-First, ensure you are able to successfully connect qbittorrent to the forwarded port manually (can be seen by a green globe at the bottom of the WebUI).
+## Requirements
 
-Second, ensure the [Gluetun](https://github.com/qdm12/gluetun/) control server port (default 8000) is exposed in your compose file. 
+Requirements for Transmission:
+ - Valid username and password for rpc authentication.
+ - Disable: Randomize port on launch (`peer-port-random-on-start`).
+ - Disable: Use port forwarding from my router (`port-forwarding-enabled`).
 
-Finally, insert the template in `docker-compose.yml` into your docker-compose containing gluetun, substituting the default values for your own.
+Requirements for Gluetun:
+ - Valid username and password for control server authentication.
+ - Control server port exposed in Docker (default: 8000).
 
-## NOTE
-This has been a relatively personal project for my stack after seeing a number of people talk about running bash scripts on their Docker host to keep the dreaded firewall warning away.  I found [snoringdragon's](https://github.com/SnoringDragon)  repo and decided it would be a fun way to learn to build and push a real Docker image, and also learn some basics in GitHub along the way.  
+## Example for docker-compose
+Below an example for a `docker-compose.yml` configuration:
+
+```
+gluetun-transmission-port-manager:
+  image: twxd/gluetun-transmission-port-manager:latest
+  environment:
+    GLUETUN_HOST: localhost        # Optional (default: localhost)
+    GLUETUN_PORT: 8000             # Optional (default: 8000)
+    GLUETUN_USERNAME: admin        # Required
+    GLUETUN_PASSWORD: secret       # Required
+    TRANSMISSION_HOST: localhost   # Optional (default: localhost)
+    TRANSMISSION_PORT: 9091        # Optional (default: 9091)
+    TRANSMISSION_USERNAME: admin   # Required
+    TRANSMISSION_PASSWORD: secret  # Required
+    PORT_CHECK_INTERVAL: 60        # Optional (default: 60 seconds)
+  network_mode: service:gluetun
+  depends_on:
+    - gluetun
+    - transmission
+  restart: unless-stopped
+```
